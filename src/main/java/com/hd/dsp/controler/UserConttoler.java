@@ -6,10 +6,8 @@ import com.hd.dsp.service.UserService;
 import com.hd.dsp.utils.JwtUtil;
 import com.hd.dsp.utils.Md5Util;
 import io.micrometer.common.util.StringUtils;
-import jakarta.validation.constraints.Pattern;
-import org.apache.ibatis.annotations.Update;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -66,10 +64,11 @@ public class UserConttoler {
         return Result.error("操作失败");
     }
 
-    @GetMapping("/getDoctor")
-    public Result<String> getDoctor(){
-        User user = userService.getUserByAccount("admin");
-        return Result.success(user.toString());
+    @GetMapping("/getDoctor/{id}")
+    public Result getDoctor(@PathVariable("id") Integer  id){
+//        User user = userService.getUserByAccount("admin");
+        System.out.println("id:"+id);
+        return Result.success(userService.getById(id));
     }
 
     @PutMapping("/updateDoctor")

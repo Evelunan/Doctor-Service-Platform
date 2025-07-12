@@ -1,5 +1,6 @@
 package com.hd.dsp.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hd.dsp.mapper.UserMapper;
 import com.hd.dsp.pojo.User;
 import com.hd.dsp.service.UserService;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
     @Autowired
     private UserMapper userMapper;
     @Override

@@ -1,12 +1,13 @@
 package com.hd.dsp.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.hd.dsp.pojo.User;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 import java.time.LocalDateTime;
 
-public interface UserService {
+public interface UserService extends IService<User> {
 
     boolean findByAccount(String account);
 
