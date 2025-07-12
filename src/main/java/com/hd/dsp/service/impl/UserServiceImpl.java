@@ -57,4 +57,14 @@ public class UserServiceImpl implements UserService {
         }
         return null;
     }
+
+    @Override
+    public boolean update(Integer id, String newPassword) {
+        return userMapper.updatePassword(id, newPassword);
+    }
+
+    @Override
+    public int updateDoctor(User user) {
+        return userMapper.updateById(user);
+    }
 }

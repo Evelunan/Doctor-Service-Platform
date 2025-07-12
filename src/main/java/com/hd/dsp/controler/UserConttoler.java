@@ -4,11 +4,17 @@ import com.hd.dsp.pojo.Result;
 import com.hd.dsp.pojo.User;
 import com.hd.dsp.service.UserService;
 import com.hd.dsp.utils.JwtUtil;
+import com.hd.dsp.utils.Md5Util;
+import io.micrometer.common.util.StringUtils;
 import jakarta.validation.constraints.Pattern;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,7 +46,37 @@ public class UserConttoler {
             String token = JwtUtil.genToken(claims);
             return Result.success(token);
         }
-        System.out.println(account+ password);
         return Result.error("用户不存在或密码错误");
+    }
+
+
+    @PutMapping("/update")
+    public Result update(@RequestParam String newPassword) {
+        User user = userService.getUserByAccount("admin");
+        if(StringUtils.isEmpty(newPassword)){
+            return Result.error("密码不能为空！");
+        }
+        String md5Password = Md5Util.getMD5String(newPassword);
+        if(md5Password.equals(user.getPassword())){
+            return Result.error("当前密码与原密码一致！");
+        }
+        if(userService.update(user.getId(), newPassword)){
+            return Result.success();
+        }
+        return Result.error("操作失败");
+    }
+
+    @GetMapping("/getDoctor")
+    public Result<String> getDoctor(){
+        User user = userService.getUserByAccount("admin");
+        return Result.success(user.toString());
+    }
+
+    @PutMapping("/updateDoctor")
+    public Result updateDoctor(@RequestBody User user) {
+        if(userService.updateDoctor(user)>0){
+            return Result.success();
+        }
+        return Result.error("操作失误！");
     }
 }
