@@ -38,7 +38,7 @@ public class UserController {
         if(user != null){
             userService.login(account, password);
             Map<String, Object> claims = new HashMap<>();
-            claims.put("username", account);
+            claims.put("id", user.getId());
             String token = JwtUtil.genToken(claims);
             return Result.success(token);
         }
@@ -64,7 +64,6 @@ public class UserController {
 
     @GetMapping("/getUser/{id}")
     public Result getUser(@PathVariable("id") Integer  id){
-        System.out.println("id:"+id);
         return Result.success(userService.getById(id));
     }
 

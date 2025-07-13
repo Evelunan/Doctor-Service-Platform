@@ -1,6 +1,7 @@
 package com.hd.dsp.interceptors;
 
 import com.hd.dsp.utils.JwtUtil;
+import com.hd.dsp.utils.UserContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
@@ -16,9 +17,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         String token = request.getHeader("token");
         try {
             Map<String, Object> claims = JwtUtil.parseToken(token);
-            for (Map.Entry<String, Object> entry : claims.entrySet()) {
-                System.out.println(entry.getKey() + ":" + entry.getValue());
-            }
+            UserContext.setUserId((Integer) claims.get("id"));
             return true;
         } catch (Exception e) {
             response.setStatus(401);
