@@ -1,5 +1,6 @@
 package com.hd.dsp.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hd.dsp.mapper.UserMapper;
 import com.hd.dsp.pojo.User;
@@ -72,5 +73,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public void insert(User user) {
         userMapper.insert(user);
+    }
+
+    @Override
+    public List<User> getElders(Integer id) {
+        return userMapper.selectList(new QueryWrapper<User>().eq("doctor_id", id));
     }
 }

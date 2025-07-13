@@ -13,7 +13,7 @@ public class DiseaseHistory {
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate diagnosisDate;
-
+//    疾病状态 0：治疗中 1：康复
     private String status;
 
     private String notes;

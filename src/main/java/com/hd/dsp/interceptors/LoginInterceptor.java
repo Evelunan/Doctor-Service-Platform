@@ -13,9 +13,12 @@ import java.util.Map;
 public class LoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String token = request.getHeader("Authorization");
+        String token = request.getHeader("token");
         try {
             Map<String, Object> claims = JwtUtil.parseToken(token);
+            for (Map.Entry<String, Object> entry : claims.entrySet()) {
+                System.out.println(entry.getKey() + ":" + entry.getValue());
+            }
             return true;
         } catch (Exception e) {
             response.setStatus(401);

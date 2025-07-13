@@ -5,6 +5,8 @@ import com.hd.dsp.pojo.User;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
+import java.util.List;
+
 public interface UserService extends IService<User> {
 
     boolean findByAccount(String account);
@@ -20,4 +22,6 @@ public interface UserService extends IService<User> {
     int updateUser(User user);
 
     void insert(User user);
+
+    List<User> getElders(Integer id);
 }
