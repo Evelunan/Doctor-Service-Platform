@@ -5,6 +5,7 @@ import com.hd.dsp.pojo.User;
 import com.hd.dsp.service.UserService;
 import com.hd.dsp.utils.JwtUtil;
 import com.hd.dsp.utils.Md5Util;
+import com.hd.dsp.utils.UserContext;
 import io.micrometer.common.util.StringUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -108,11 +109,23 @@ public class UserController {
         }
         return Result.error("操作失误！");
     }
+    // 查询当前医生的所有老人
+    @GetMapping("/getElders")
+    public Result getElder() {
+        if(UserContext.getUserId()==null){
+            return Result.error("用户未登录");
+        }
+        return Result.success(userService.getElders(UserContext.getUserId()));
+    }
 
-    @GetMapping("/getElders/{id}")
-    public Result getElder(@PathVariable("id") Integer id) {
-
-        return Result.success(userService.getElders(id));
+    @GetMapping("/getCurrentUser")
+    public Result getCurrentUser() {
+        Integer userId = UserContext.getUserId();
+        if (userId != null) {
+            return Result.success(userService.getById(userId));
+        } else {
+            return Result.error("用户未登录");
+        }
     }
 }
 

@@ -6,9 +6,4 @@ import com.hd.dsp.pojo.FamilyHistory;
 import java.util.List;
 
 public interface FamilyHistoryService extends IService<FamilyHistory> {
-    List<FamilyHistory> getByUserId(Integer userId);
-
-    int update(FamilyHistory familyHistory);
-
-    int insert(FamilyHistory familyHistory);
 }

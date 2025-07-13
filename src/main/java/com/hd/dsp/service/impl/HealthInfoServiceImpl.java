@@ -9,20 +9,4 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class HealthInfoServiceImpl extends ServiceImpl<HealthInfoMapper, HealthInfo> implements HealthInfoService {
-    @Autowired
-    private HealthInfoMapper healthInfoMapper;
-    @Override
-    public HealthInfo getByUserId(Integer userId) {
-        return healthInfoMapper.getByUserId(userId);
-    }
-
-    @Override
-    public int update(HealthInfo healthInfo) {
-        return healthInfoMapper.updateByUserId(healthInfo);
-    }
-
-    @Override
-    public int insert(HealthInfo healthInfo) {
-        return  healthInfoMapper.insert(healthInfo);
-    }
 }
