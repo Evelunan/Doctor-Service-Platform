@@ -1,4 +1,4 @@
-package com.hd.dsp.controler;
+package com.hd.dsp.controller;
 
 import com.hd.dsp.pojo.Result;
 import com.hd.dsp.pojo.User;
@@ -11,14 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
-public class UserConttoler {
+public class UserController {
 
     @Autowired
     private UserService userService;
@@ -48,9 +46,9 @@ public class UserConttoler {
     }
 
 
-    @PutMapping("/update")
-    public Result update(@RequestParam String newPassword) {
-        User user = userService.getUserByAccount("admin");
+    @PutMapping("/updatePassword/{id}")
+    public Result updatePassword(@PathVariable("id") Integer  id,@RequestParam String newPassword) {
+        User user = userService.getById(id);
         if(StringUtils.isEmpty(newPassword)){
             return Result.error("密码不能为空！");
         }
@@ -58,24 +56,50 @@ public class UserConttoler {
         if(md5Password.equals(user.getPassword())){
             return Result.error("当前密码与原密码一致！");
         }
-        if(userService.update(user.getId(), newPassword)){
+        if(userService.updatePassword(user.getId(), md5Password)){
             return Result.success();
         }
         return Result.error("操作失败");
     }
 
-    @GetMapping("/getDoctor/{id}")
-    public Result getDoctor(@PathVariable("id") Integer  id){
-//        User user = userService.getUserByAccount("admin");
+    @GetMapping("/getUser/{id}")
+    public Result getUser(@PathVariable("id") Integer  id){
         System.out.println("id:"+id);
         return Result.success(userService.getById(id));
     }
 
-    @PutMapping("/updateDoctor")
-    public Result updateDoctor(@RequestBody User user) {
-        if(userService.updateDoctor(user)>0){
+    @PutMapping("/updateUser")
+    public Result updateUser(@RequestBody User user) {
+        if(userService.updateUser(user)>0){
             return Result.success();
         }
         return Result.error("操作失误！");
     }
+
+    @PostMapping("/createElder/{id}")
+    public Result createElder(@PathVariable("id") Integer  id,@RequestBody User user){
+        if(userService.findByAccount(user.getAccount())){
+            return Result.error("用户已存在");
+        }
+        String pd = user.getPassword();
+
+        if(StringUtils.isEmpty(pd)){
+            return Result.error("密码不能为空！");
+        }
+        pd = Md5Util.getMD5String(pd);
+        user.setPassword(pd);
+        user.setDoctorId(id); //指定医生为当前用户
+        user.setType(1); //老人
+        userService.insert(user);
+        return Result.success();
+    }
+
+    @PutMapping("/updateElder")
+    public Result updateElder(@RequestBody User user) {
+        if(userService.updateUser(user)>0){
+            return Result.success();
+        }
+        return Result.error("操作失误！");
+    }
+
 }

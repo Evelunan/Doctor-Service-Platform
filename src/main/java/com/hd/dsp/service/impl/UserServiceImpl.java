@@ -60,12 +60,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public boolean update(Integer id, String newPassword) {
+    public boolean updatePassword(Integer id, String newPassword) {
         return userMapper.updatePassword(id, newPassword);
     }
 
     @Override
-    public int updateDoctor(User user) {
+    public int updateUser(User user) {
         return userMapper.updateById(user);
+    }
+
+    @Override
+    public void insert(User user) {
+        userMapper.insert(user);
     }
 }

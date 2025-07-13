@@ -5,8 +5,6 @@ import com.hd.dsp.pojo.User;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
-import java.time.LocalDateTime;
-
 public interface UserService extends IService<User> {
 
     boolean findByAccount(String account);
@@ -17,7 +15,9 @@ public interface UserService extends IService<User> {
 
     User getUserByAccount(String account);
 
-    boolean update(@NotNull Integer id, String newPassword);
+    boolean updatePassword(@NotNull Integer id, String newPassword);
 
-    int updateDoctor(User user);
+    int updateUser(User user);
+
+    void insert(User user);
 }
