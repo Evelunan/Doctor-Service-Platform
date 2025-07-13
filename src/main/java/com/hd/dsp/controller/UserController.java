@@ -102,4 +102,11 @@ public class UserController {
         return Result.error("操作失误！");
     }
 
+    @DeleteMapping("/deleteElder/{id}")
+    public Result deleteElder(@PathVariable("id") Integer  id){
+        if(userService.removeById(id)){
+            return Result.success();
+        }
+        return Result.error("操作失误！");
+    }
 }

@@ -8,5 +8,5 @@ import org.apache.ibatis.annotations.Select;
 @Mapper
 public interface DiseaseHistoryMapper extends BaseMapper<DiseaseHistory> {
     @Select("select * from disease_history where user_id=#{userId}")
-    public DiseaseHistory selectByIdUserId(Integer userId);
+    DiseaseHistory getByUserId(Integer userId);
 }

@@ -1,4 +1,12 @@
 package com.hd.dsp.service;
 
-public interface HealthInfoService {
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.hd.dsp.pojo.HealthInfo;
+
+public interface HealthInfoService extends IService<HealthInfo> {
+    HealthInfo getByUserId(Integer userId);
+
+    int update(HealthInfo healthInfo);
+
+    int insert(HealthInfo healthInfo);
 }
