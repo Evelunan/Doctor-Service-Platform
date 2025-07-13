@@ -109,8 +109,9 @@ public class UserController {
         }
         return Result.error("操作失误！");
     }
+
     @GetMapping("/getElders/{id}")
-    public Result getElder(@PathVariable("id") Integer  id){
+    public Result getElder(@PathVariable("id") Integer id) {
 
         return Result.success(userService.getElders(id));
     }
