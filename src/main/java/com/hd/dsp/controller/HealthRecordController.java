@@ -25,13 +25,15 @@ public class HealthRecordController {
 
     //更新基本健康信息
 
-    @PutMapping("/baseInfo/update")
-    public Result updateBaseInfo(@RequestBody HealthInfo healthInfo){
+    @PutMapping("/baseInfo/update/{id}")
+    public Result updateBaseInfo(@PathVariable("id") Integer userId,@RequestBody HealthInfo healthInfo){
+        healthInfo.setUserId(userId);
         return healthInfoService.update(healthInfo) > 0 ? Result.success() : Result.error("更新失败！");
     }
 
-    @PostMapping("/baseInfo/add")
-    public Result addBaseInfo(@RequestBody HealthInfo healthInfo){
+    @PostMapping("/baseInfo/add/{id}")
+    public Result addBaseInfo(@PathVariable("id") Integer userId,@RequestBody HealthInfo healthInfo){
+        healthInfo.setUserId(userId);
         return healthInfoService.insert(healthInfo) > 0 ? Result.success() : Result.error("添加基本信息失败！");
     }
 
@@ -47,8 +49,9 @@ public class HealthRecordController {
     }
 
     //添加疾病历史信息
-    @PostMapping("/diseaseHistory/add")
-    public Result addDiseaseHistory(@RequestBody DiseaseHistory diseaseHistory){
+    @PostMapping("/diseaseHistory/add/{id}")
+    public Result addDiseaseHistory(@PathVariable("id") Integer userId,@RequestBody DiseaseHistory diseaseHistory){
+        diseaseHistory.setUserId(userId);
         return diseaseHistoryService.insert(diseaseHistory) > 0 ? Result.success() : Result.error("添加失败！");
     }
 

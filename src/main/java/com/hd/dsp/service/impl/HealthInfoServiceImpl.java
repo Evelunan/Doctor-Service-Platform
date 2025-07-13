@@ -18,7 +18,7 @@ public class HealthInfoServiceImpl extends ServiceImpl<HealthInfoMapper, HealthI
 
     @Override
     public int update(HealthInfo healthInfo) {
-        return healthInfoMapper.updateById(healthInfo);
+        return healthInfoMapper.updateByUserId(healthInfo);
     }
 
     @Override
