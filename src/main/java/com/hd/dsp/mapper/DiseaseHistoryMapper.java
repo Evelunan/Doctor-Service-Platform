@@ -14,5 +14,5 @@ public interface DiseaseHistoryMapper extends BaseMapper<DiseaseHistory> {
     List<DiseaseHistory> getByUserId(Integer userId);
 
     @Update("update disease_history set disease_name=#{diseaseName},diagnosis_date=#{diagnosisDate},status=#{status},notes=#{notes} where user_id=#{userId} and id=#{id}")
-    int updateByUserId(DiseaseHistory diseaseHistory);
+    int updateByTwoId(DiseaseHistory diseaseHistory);
 }

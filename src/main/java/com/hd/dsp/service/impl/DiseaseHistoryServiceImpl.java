@@ -21,7 +21,7 @@ public class DiseaseHistoryServiceImpl extends ServiceImpl<DiseaseHistoryMapper,
 
     @Override
     public int update(DiseaseHistory diseaseHistory) {
-        return diseaseHistoryMapper.updateByUserId(diseaseHistory);
+        return diseaseHistoryMapper.updateByTwoId(diseaseHistory);
     }
 
     @Override
