@@ -68,7 +68,6 @@ public class UserController {
         return Result.success(userService.getById(id));
     }
 
-
     @PutMapping("/updateUser")
     public Result updateUser(@RequestBody User user) {
         if(userService.updateUser(user)>0){
@@ -102,10 +101,18 @@ public class UserController {
         }
         return Result.error("操作失误！");
     }
-    // 获取该医生下的所有老人
+
+    @DeleteMapping("/deleteElder/{id}")
+    public Result deleteElder(@PathVariable("id") Integer  id){
+        if(userService.removeById(id)){
+            return Result.success();
+        }
+        return Result.error("操作失误！");
+    }
     @GetMapping("/getElders/{id}")
     public Result getElder(@PathVariable("id") Integer  id){
 
         return Result.success(userService.getElders(id));
     }
 }
+
