@@ -43,8 +43,10 @@ public class HealthRecordController {
         return Result.success(diseaseHistoryService.getByUserId(userId));
     }
     //更新疾病历史信息
-    @PutMapping("/diseaseHistory/update")
-    public Result updateDiseaseHistory(@RequestBody DiseaseHistory diseaseHistory){
+    @PutMapping("/diseaseHistory/update/{id}/{diseaseId}")
+    public Result updateDiseaseHistory(@PathVariable("id") Integer userId,@PathVariable("diseaseId") Integer diseaseId,@RequestBody DiseaseHistory diseaseHistory){
+        diseaseHistory.setUserId(userId);
+        diseaseHistory.setId(diseaseId);
         return diseaseHistoryService.update(diseaseHistory) > 0 ? Result.success() : Result.error("更新失败！");
     }
 
@@ -55,8 +57,8 @@ public class HealthRecordController {
         return diseaseHistoryService.insert(diseaseHistory) > 0 ? Result.success() : Result.error("添加失败！");
     }
 
-    @DeleteMapping("/diseaseHistory/delete/{id}")
-    public Result deleteDiseaseHistory(@PathVariable("id") Integer id){
-        return diseaseHistoryService.deleteById(id) > 0? Result.success() : Result.error("删除失败！");
+    @DeleteMapping("/diseaseHistory/delete/{id}/{diseaseId}")
+    public Result deleteDiseaseHistory(@PathVariable("diseaseId") Integer diseaseId){
+        return diseaseHistoryService.deleteById(diseaseId) > 0? Result.success() : Result.error("删除失败！");
     }
 }

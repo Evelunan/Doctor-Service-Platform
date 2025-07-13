@@ -7,19 +7,21 @@ import com.hd.dsp.service.DiseaseHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class DiseaseHistoryServiceImpl extends ServiceImpl<DiseaseHistoryMapper, DiseaseHistory> implements DiseaseHistoryService {
 
     @Autowired
     private DiseaseHistoryMapper diseaseHistoryMapper;
     @Override
-    public DiseaseHistory getByUserId(Integer userId) {
+    public List<DiseaseHistory> getByUserId(Integer userId) {
         return diseaseHistoryMapper.getByUserId(userId);
     }
 
     @Override
     public int update(DiseaseHistory diseaseHistory) {
-        return diseaseHistoryMapper.updateById(diseaseHistory);
+        return diseaseHistoryMapper.updateByUserId(diseaseHistory);
     }
 
     @Override
