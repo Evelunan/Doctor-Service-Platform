@@ -11,6 +11,7 @@ import com.hd.dsp.pojo.HealthInfo;
 import com.hd.dsp.pojo.User;
 import com.hd.dsp.pojo.vo.UserVo;
 import com.hd.dsp.service.PatientService;
+import com.hd.dsp.utils.Md5Util;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,5 +45,45 @@ public class PatientServiceImpl implements PatientService {
         userVo.setFamilyHistoryList(familyHistoryList);
 
         return userVo;
+    }
+
+    @Override
+    public void addPatient(UserVo userVo) {
+        User user = new User();
+        BeanUtils.copyProperties(userVo, user);
+        user.setPassword(Md5Util.getMD5String(user.getAccount()));
+        user.setType(1);
+        userMapper.insert(user);
+        userVo.getDiseaseHistoryList().forEach(diseaseHistory -> {
+            diseaseHistory.setUserId(user.getId());
+        });
+        userVo.getFamilyHistoryList().forEach(familyHistory -> {
+            familyHistory.setUserId(user.getId());
+        });
+        healthInfoMapper.insert(userVo.getHealthInfo());
+        diseaseHistoryMapper.insert(userVo.getDiseaseHistoryList());
+        familyHistoryMapper.insert(userVo.getFamilyHistoryList());
+    }
+
+    @Override
+    public void updatePatient(UserVo userVo) {
+        User user = new User();
+        BeanUtils.copyProperties(userVo, user);
+        userMapper.updateById(user);
+        healthInfoMapper.delete(new QueryWrapper<HealthInfo>().eq("user_id", user.getId()));
+        diseaseHistoryMapper.delete(new QueryWrapper<DiseaseHistory>().eq("user_id", user.getId()));
+        familyHistoryMapper.delete(new QueryWrapper<FamilyHistory>().eq("user_id", user.getId()));
+        healthInfoMapper.insert(userVo.getHealthInfo());
+        diseaseHistoryMapper.insert(userVo.getDiseaseHistoryList());
+        familyHistoryMapper.insert(userVo.getFamilyHistoryList());
+    }
+
+    @Override
+    public void deletePatient(Integer id) {
+
+        userMapper.deleteById(id);
+        healthInfoMapper.delete(new QueryWrapper<HealthInfo>().eq("user_id", id));
+        diseaseHistoryMapper.delete(new QueryWrapper<DiseaseHistory>().eq("user_id", id));
+        familyHistoryMapper.delete(new QueryWrapper<FamilyHistory>().eq("user_id", id));
     }
 }

@@ -24,8 +24,23 @@ public class PatientController {
     @GetMapping("/archive/{id}")
     Result archive(@PathVariable("id") Integer id) {
         UserVo patientArchive = patientService.getPatientArchive(id);
-        System.out.println(patientArchive);
         return Result.success(patientArchive);
     }
 
+    @PostMapping("/archive/add")
+    Result addPatient(@RequestBody UserVo userVo) {
+        System.out.println(userVo);
+        patientService.addPatient(userVo);
+        return Result.success();
+    }
+    @PutMapping("/archive/update")
+    Result updatePatient(@RequestBody UserVo userVo) {
+        patientService.updatePatient(userVo);
+        return Result.success();
+    }
+    @DeleteMapping("/archive/delete/{id}")
+    Result deletePatient(@PathVariable("id") Integer id) {
+        patientService.deletePatient(id);
+        return Result.success();
+    }
 }
