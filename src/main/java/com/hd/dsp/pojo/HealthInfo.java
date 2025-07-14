@@ -11,4 +11,11 @@ public class HealthInfo {
     private String allergies;
     private Integer disability;
     private Integer userId;
+
+    private Double systolic;
+    private Double diastolic;
+    private Double fastingGlucose;
+    private Double spo2;
+    private Double heartRate;
+    private Double temperature;
 }
