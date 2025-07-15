@@ -5,10 +5,7 @@ import com.hd.dsp.pojo.Result;
 import com.hd.dsp.service.FollowupHistoryService;
 import com.hd.dsp.utils.UserContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/followupHistory")
@@ -21,7 +18,12 @@ public class FollowupHistoryController {
         if(UserContext.getUserId()==null){
             return Result.error("用户未登录");
         }
+        followupHistoryService.save(followupHistory);
+        return Result.success(followupHistoryService.getById(followupHistory.getId()));
+    }
 
-        return Result.success(followupHistoryService.save(followupHistory));
+    @GetMapping("/list")
+    public Result listFollowupHistory(){
+        return Result.success(followupHistoryService.list());
     }
 }
