@@ -53,6 +53,7 @@ public class PatientServiceImpl implements PatientService {
         BeanUtils.copyProperties(userVo, user);
         user.setPassword(Md5Util.getMD5String(user.getAccount()));
         user.setType(1);
+        user.setUpdated(true);
         userMapper.insert(user);
         userVo.getDiseaseHistoryList().forEach(diseaseHistory -> {
             diseaseHistory.setUserId(user.getId());
@@ -69,6 +70,7 @@ public class PatientServiceImpl implements PatientService {
     public void updatePatient(UserVo userVo) {
         User user = new User();
         BeanUtils.copyProperties(userVo, user);
+        user.setUpdated(true);
         userMapper.updateById(user);
         healthInfoMapper.delete(new QueryWrapper<HealthInfo>().eq("user_id", user.getId()));
         diseaseHistoryMapper.delete(new QueryWrapper<DiseaseHistory>().eq("user_id", user.getId()));

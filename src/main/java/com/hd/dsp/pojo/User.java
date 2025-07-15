@@ -35,4 +35,6 @@ public class User {
     private Integer doctorId;
 
     private Integer type; //0医生 1老人
+
+    private Boolean updated;
 }
