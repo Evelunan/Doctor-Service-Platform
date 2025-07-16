@@ -15,4 +15,5 @@ public class FollowupHistory {
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private String followupTime;
+    private String remark;
 }
