@@ -38,19 +38,22 @@ public class UserController {
     public Result<String> login(@RequestParam String account, @RequestParam String password) {
         User user = userService.getUserByAccount(account);
         if (user != null) {
-            userService.login(account, password);
-            Map<String, Object> claims = new HashMap<>();
-            claims.put("id", user.getId());
-            String token = JwtUtil.genToken(claims);
-            return Result.success(token);
+            System.out.println(password);
+            if(userService.login(account, password)){
+                Map<String, Object> claims = new HashMap<>();
+                claims.put("id", user.getId());
+                String token = JwtUtil.genToken(claims);
+                return Result.success(token);
+            }
         }
         return Result.error("用户不存在或密码错误");
     }
 
 
-    @PutMapping("/updatePassword/{id}")
-    public Result updatePassword(@PathVariable("id") Integer id, @RequestParam String newPassword) {
-        User user = userService.getById(id);
+    @PutMapping("/updatePassword")
+    public Result updatePassword(@RequestParam String newPassword) {
+        Integer userId = UserContext.getUserId();
+        User user = userService.getById(userId);
         if (StringUtils.isEmpty(newPassword)) {
             return Result.error("密码不能为空！");
         }
