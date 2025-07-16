@@ -28,7 +28,7 @@ public class WarningProcessController {
     @GetMapping("/getWarningInfo/{userId}")
     public Result getWarningInfo(@PathVariable("userId") Integer userId){
         QueryWrapper<WarningInfo> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("patient_id", userId);
+        queryWrapper.eq("patient_id", userId).orderByDesc("warning_time");
         List<WarningInfo> list = warningProcessService.list(queryWrapper);
         return Result.success(list);
     }

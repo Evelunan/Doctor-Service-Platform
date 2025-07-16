@@ -17,5 +17,6 @@
                  LEFT JOIN warning_info wi ON u.id = wi.patient_id
         WHERE u.doctor_id = #{doctorId}
         GROUP BY u.id, u.username
+        ORDER BY  warningTime DESC
     </select>
 </mapper>

@@ -51,6 +51,10 @@ public class PatientServiceImpl implements PatientService {
     public void addPatient(UserVo userVo) {
         User user = new User();
         BeanUtils.copyProperties(userVo, user);
+        Long count = userMapper.selectCount(new QueryWrapper<User>().eq("account", user.getAccount()));
+        if (count > 0){
+            throw new RuntimeException("账户已存在");
+        }
         user.setPassword(Md5Util.getMD5String(user.getAccount()));
         user.setType(1);
         user.setUpdated(true);
