@@ -18,6 +18,9 @@ public class LoginInterceptor implements HandlerInterceptor {
         try {
             Map<String, Object> claims = JwtUtil.parseToken(token);
             UserContext.setUserId((Integer) claims.get("id"));
+            UserContext.setUserType((Integer) claims.get("type"));
+            System.out.println(UserContext.getUserId());
+            System.out.println("type:"+ UserContext.getUserType());
             return true;
         } catch (Exception e) {
             response.setStatus(401);

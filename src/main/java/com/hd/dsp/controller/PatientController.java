@@ -24,7 +24,13 @@ public class PatientController {
     Result patientList(PageVO dto) {
         Integer doctor_id = UserContext.getUserId();
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("doctor_id", doctor_id);
+        // 类型为医生医生时，查医生下的病人
+        if (UserContext.getUserType() == 0){
+            queryWrapper.eq("doctor_id", doctor_id);
+        } else {
+//            为病人时，查自己
+            queryWrapper.eq("id", doctor_id);
+        }
         Page<User> page = userService.page(new Page<>(dto.getPageNum(), dto.getPageSize()), queryWrapper);
         PageVO<User> pageVO = new PageVO<>();
         pageVO.setTotal(page.getTotal());

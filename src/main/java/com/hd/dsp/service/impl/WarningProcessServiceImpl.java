@@ -7,6 +7,7 @@ import com.hd.dsp.mapper.WarningInfoMapper;
 import com.hd.dsp.pojo.WarningInfo;
 import com.hd.dsp.pojo.vo.WarningUserVO;
 import com.hd.dsp.service.WarningProcessService;
+import com.hd.dsp.utils.UserContext;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,7 +24,8 @@ public class WarningProcessServiceImpl extends ServiceImpl<WarningInfoMapper, Wa
 
     @Override
     public Page<WarningUserVO> listWarningUsers(Page<WarningUserVO> page, Integer doctorId) {
-
-        return warningInfoMapper.listWarningUsers(page, doctorId);
+        if (UserContext.getUserType() == 0)
+            return warningInfoMapper.listWarningUsers(page, doctorId);
+        return warningInfoMapper.listWarningSelf(page, doctorId);
     }
 }

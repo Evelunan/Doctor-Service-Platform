@@ -11,4 +11,6 @@ import java.util.List;
 @Mapper
 public interface WarningInfoMapper extends BaseMapper<WarningInfo> {
     Page<WarningUserVO> listWarningUsers(Page<WarningUserVO> page, Integer doctorId);
+
+    Page<WarningUserVO> listWarningSelf(Page<WarningUserVO> page, Integer id);
 }
