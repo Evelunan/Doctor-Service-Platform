@@ -1,8 +1,10 @@
 package com.hd.dsp.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hd.dsp.pojo.Result;
 import com.hd.dsp.pojo.WarningInfo;
+import com.hd.dsp.pojo.vo.PageVO;
 import com.hd.dsp.pojo.vo.WarningUserVO;
 import com.hd.dsp.service.WarningProcessService;
 import com.hd.dsp.utils.UserContext;
@@ -19,18 +21,29 @@ public class WarningProcessController {
     WarningProcessService warningProcessService;
 
     @GetMapping("/listWarningUsers")
-    public Result listWarningUsers(){
+    public Result listWarningUsers( PageVO dto){
         Integer doctorId = UserContext.getUserId();
-        List<WarningUserVO> list = warningProcessService.listWarningUsers(doctorId);
+        Page<WarningUserVO> page = new Page<>(dto.getPageNum(), dto.getPageSize());
 
-        return Result.success(list);
+        page = warningProcessService.listWarningUsers(page, doctorId);
+        PageVO vo = new PageVO<>();
+        vo.setTotal(page.getTotal());
+        vo.setList(page.getRecords());
+        vo.setPageSize(page.getSize());
+        vo.setPageNum(page.getCurrent());
+        return Result.success(vo);
     }
     @GetMapping("/getWarningInfo/{userId}")
-    public Result getWarningInfo(@PathVariable("userId") Integer userId){
+    public Result getWarningInfo(@PathVariable("userId") Integer userId, @RequestParam Long pageNum, @RequestParam Long pageSize){
         QueryWrapper<WarningInfo> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("patient_id", userId).orderByDesc("warning_time");
-        List<WarningInfo> list = warningProcessService.list(queryWrapper);
-        return Result.success(list);
+        Page<WarningInfo> page = new Page<>(pageNum, pageSize);
+        page = warningProcessService.page(page, queryWrapper);
+
+        PageVO<WarningInfo> pageVO = new PageVO<>();
+        pageVO.setTotal(page.getTotal());
+        pageVO.setList(page.getRecords());
+        return Result.success(pageVO);
     }
     @PutMapping("/updateWarningInfo")
     public Result updateWarningInfo(@RequestBody WarningInfo warningInfo){

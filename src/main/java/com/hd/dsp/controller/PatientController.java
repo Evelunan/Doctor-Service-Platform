@@ -1,6 +1,10 @@
 package com.hd.dsp.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hd.dsp.pojo.Result;
+import com.hd.dsp.pojo.User;
+import com.hd.dsp.pojo.vo.PageVO;
 import com.hd.dsp.pojo.vo.UserVo;
 import com.hd.dsp.service.PatientService;
 import com.hd.dsp.service.UserService;
@@ -17,9 +21,17 @@ public class PatientController {
     @Autowired
     private PatientService patientService;
     @GetMapping("/list")
-    Result patientList() {
+    Result patientList(PageVO dto) {
         Integer doctor_id = UserContext.getUserId();
-        return Result.success(userService.getElders(doctor_id));
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("doctor_id", doctor_id);
+        Page<User> page = userService.page(new Page<>(dto.getPageNum(), dto.getPageSize()), queryWrapper);
+        PageVO<User> pageVO = new PageVO<>();
+        pageVO.setTotal(page.getTotal());
+        pageVO.setList(page.getRecords());
+        pageVO.setPageNum(dto.getPageNum());
+        pageVO.setPageSize(dto.getPageSize());
+        return Result.success(pageVO);
     }
     @GetMapping("/archive/{id}")
     Result archive(@PathVariable("id") Integer id) {

@@ -1,5 +1,6 @@
 package com.hd.dsp.service.impl;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hd.dsp.mapper.UserMapper;
 import com.hd.dsp.mapper.WarningInfoMapper;
@@ -21,7 +22,8 @@ public class WarningProcessServiceImpl extends ServiceImpl<WarningInfoMapper, Wa
     }
 
     @Override
-    public List<WarningUserVO> listWarningUsers(Integer doctorId) {
-        return warningInfoMapper.listWarningUsers(doctorId);
+    public Page<WarningUserVO> listWarningUsers(Page<WarningUserVO> page, Integer doctorId) {
+
+        return warningInfoMapper.listWarningUsers(page, doctorId);
     }
 }

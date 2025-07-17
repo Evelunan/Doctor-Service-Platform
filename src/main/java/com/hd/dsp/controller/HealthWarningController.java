@@ -1,9 +1,11 @@
 package com.hd.dsp.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hd.dsp.pojo.HealthWarningRule;
 import com.hd.dsp.pojo.Result;
 import com.hd.dsp.pojo.constant.HealthWarningType;
+import com.hd.dsp.pojo.vo.PageVO;
 import com.hd.dsp.service.HealthWarningRuleService;
 import com.hd.dsp.utils.UserContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,21 +29,33 @@ public class HealthWarningController {
     }
 
     @GetMapping("/diseaseList")
-    public Result diseaseList() {
+    public Result diseaseList(PageVO dto) {
         QueryWrapper<HealthWarningRule> queryWrapper = new QueryWrapper<>();
 //                .eq("type", HealthWarningType.DISEASE_HISTORY);
         queryWrapper.eq("type", HealthWarningType.DISEASE_HISTORY);
         queryWrapper.eq("user_id", UserContext.getUserId());
-        List<HealthWarningRule> healthWarningRules = healthWarningRuleService.list(queryWrapper);
-        return Result.success(healthWarningRules);
+        Page<HealthWarningRule> page = healthWarningRuleService.page(new Page<>(dto.getPageNum(), dto.getPageSize()), queryWrapper);
+        PageVO<HealthWarningRule> pageVO = new PageVO<>();
+        pageVO.setTotal(page.getTotal());
+        pageVO.setList(page.getRecords());
+        pageVO.setPageNum(dto.getPageNum());
+        pageVO.setPageSize(dto.getPageSize());
+
+        return Result.success(pageVO);
     }
     @GetMapping("/familyList")
-    public Result familyList() {
+    public Result familyList(PageVO dto) {
         QueryWrapper<HealthWarningRule> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("type", HealthWarningType.FAMILY_HISTORY);
         queryWrapper.eq("user_id", UserContext.getUserId());
-        List<HealthWarningRule> healthWarningRules = healthWarningRuleService.list(queryWrapper);
-        return Result.success(healthWarningRules);
+
+        Page<HealthWarningRule> page = healthWarningRuleService.page(new Page<>(dto.getPageNum(), dto.getPageSize()), queryWrapper);
+        PageVO<HealthWarningRule> pageVO = new PageVO<>();
+        pageVO.setTotal(page.getTotal());
+        pageVO.setList(page.getRecords());
+        pageVO.setPageNum(dto.getPageNum());
+        pageVO.setPageSize(dto.getPageSize());
+        return Result.success(pageVO);
     }
     @DeleteMapping("/delete/{id}")
     public Result delete(@PathVariable("id") Integer id) {
