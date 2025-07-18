@@ -24,4 +24,14 @@ public class FollowupPlanServiceImpl extends ServiceImpl<FollowUpPlanMapper, Fol
     public List<FollowupPlan> getCompleteList(Integer doctorId) {
         return followUpPlanMapper.selectList(new QueryWrapper<FollowupPlan>().eq("doctor_id", doctorId).eq("status" ,2));
     }
+
+    @Override
+    public List<FollowupPlan> getElders(Integer elderId) {
+        return followUpPlanMapper.selectList(new QueryWrapper<FollowupPlan>().eq("elder_id", elderId));
+    }
+
+    @Override
+    public List<FollowupPlan> getByElderId(Integer elderId) {
+        return followUpPlanMapper.selectList(new QueryWrapper<FollowupPlan>().eq("elder_id", elderId));
+    }
 }

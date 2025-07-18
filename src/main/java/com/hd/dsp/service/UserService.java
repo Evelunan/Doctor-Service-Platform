@@ -2,6 +2,7 @@ package com.hd.dsp.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.hd.dsp.pojo.User;
+import com.hd.dsp.pojo.vo.NoticeVO;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
@@ -24,4 +25,6 @@ public interface UserService extends IService<User> {
     void insert(User user);
 
     List<User> getElders(Integer id);
+
+    List<NoticeVO> getNotice(Integer elderId);
 }

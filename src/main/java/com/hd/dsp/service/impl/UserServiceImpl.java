@@ -3,7 +3,10 @@ package com.hd.dsp.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hd.dsp.mapper.UserMapper;
+import com.hd.dsp.pojo.FollowupPlan;
 import com.hd.dsp.pojo.User;
+import com.hd.dsp.pojo.vo.NoticeVO;
+import com.hd.dsp.service.FollowupPlanService;
 import com.hd.dsp.service.UserService;
 import com.hd.dsp.utils.Md5Util;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +21,9 @@ import java.util.Map;
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private FollowupPlanService followupPlanService;
+
     @Override
     public boolean findByAccount(String account) {
         Map map = new HashMap();
@@ -33,6 +39,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public void regist(String account, String password) {
         String md5String = Md5Util.getMD5String(password);
         User user = new User();
+        user.setType(0);
+        user.setUpdated(true);
         user.setAccount(account);
         user.setPassword(md5String);
         userMapper.insert( user);
@@ -79,4 +87,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public List<User> getElders(Integer id) {
         return userMapper.selectList(new QueryWrapper<User>().eq("doctor_id", id));
     }
+
+    @Override
+    public List<NoticeVO> getNotice(Integer elderId) {
+
+        return userMapper.getNotice(elderId);
+    }
+
 }

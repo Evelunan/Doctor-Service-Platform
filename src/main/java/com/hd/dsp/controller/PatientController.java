@@ -45,6 +45,12 @@ public class PatientController {
         return Result.success(patientArchive);
     }
 
+    @GetMapping("idAndName")
+    Result idAndName() {
+        Integer id = UserContext.getUserId();
+        return Result.success(userService.getElders(id));
+    }
+
     @PostMapping("/archive/add")
     Result addPatient(@RequestBody UserVo userVo) {
         System.out.println(userVo);

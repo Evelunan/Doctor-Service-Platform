@@ -9,4 +9,8 @@ public interface FollowupPlanService extends IService<FollowupPlan> {
     List<FollowupPlan> getPlanList(Integer doctorId);
 
     List<FollowupPlan> getCompleteList(Integer doctorId);
+
+    List<FollowupPlan> getElders(Integer elderId);
+
+    List<FollowupPlan> getByElderId(Integer elderId);
 }
