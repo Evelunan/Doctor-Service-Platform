@@ -22,6 +22,8 @@ public class WarningProcessController {
 
     @GetMapping("/listWarningUsers")
     public Result listWarningUsers( PageVO dto){
+        warningProcessService.inspect();
+
         Integer doctorId = UserContext.getUserId();
         Page<WarningUserVO> page = new Page<>(dto.getPageNum(), dto.getPageSize());
 

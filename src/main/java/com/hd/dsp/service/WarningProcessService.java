@@ -9,4 +9,6 @@ import java.util.List;
 
 public interface WarningProcessService extends IService<WarningInfo> {
     Page<WarningUserVO> listWarningUsers(Page<WarningUserVO> page, Integer doctorId);
+
+    void inspect();
 }
